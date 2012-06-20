@@ -6,15 +6,7 @@
         <module name="ImageLoader" class="com.AsyncImageLoader"/>
     </plugin>
     
-    <constant name="" type="boolean" value="" />
-    <constant name="" type="integer" value="" />
-    <constant name="" type="string" value="" />
-    <constant name="" type="long" value="" />
-    <constant name="" type="float" value="" />
-    <constant name="" type="double" value="" />
-    <constant name="" type="byte" value="" />
-    <constant name="" type="short" value="" />
-    <constant name="" type="short" value="" />
+    <constant name="" value="" />
     
     <activiy class="" taskref="">
         

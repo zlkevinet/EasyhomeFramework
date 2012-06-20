@@ -9,5 +9,5 @@ import android.app.Activity;
  * @since 2012-6-20
  */
 public abstract class BaseActivity extends Activity implements IActivity{
-
+    
 }
