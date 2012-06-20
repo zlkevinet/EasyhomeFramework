@@ -1,0 +1,34 @@
+<app>
+    <plugin extends="default-plugin" >
+        <module class="com.AsyncImageLoader">ImageLoader</module>
+        <module>SystemLoader</module>
+        <module name="SystemLoader"/>
+        <module name="ImageLoader" class="com.AsyncImageLoader"/>
+    </plugin>
+    
+    <constant name="" type="boolean" value="" />
+    <constant name="" type="integer" value="" />
+    <constant name="" type="string" value="" />
+    <constant name="" type="long" value="" />
+    <constant name="" type="float" value="" />
+    <constant name="" type="double" value="" />
+    <constant name="" type="byte" value="" />
+    <constant name="" type="short" value="" />
+    <constant name="" type="short" value="" />
+    
+    <activiy class="" taskref="">
+        
+        <actions>
+	    	<action></action>
+        </actions>
+        
+    	<action taskref="" >
+		    <task></task>
+    	</action>
+    	
+    	<animation in="" out="" ></animation>
+    </activiy>
+    
+    <task name="" class="" />
+    
+</app>
