@@ -1,5 +1,7 @@
 <app>
-    <plugin extends="default-plugin" >
+    <!-- global plugin and constant -->
+    
+    <plugin>
         <module class="com.AsyncImageLoader">ImageLoader</module>
         <module>SystemLoader</module>
         <module name="SystemLoader"/>
@@ -9,10 +11,16 @@
     <constant name="" value="" />
     
     <activiy class="" taskref="">
-        
-        <actions>
+        <plugin>
+	        <module class="com.AsyncImageLoader">ImageLoader</module>
+	        <module>SystemLoader</module>
+	        <module name="SystemLoader"/>
+	        <module name="ImageLoader" class="com.AsyncImageLoader"/>
+    	</plugin>
+    	
+        <action-sequences>
 	    	<action></action>
-        </actions>
+        </action-sequences>
         
     	<action taskref="" >
 		    <task></task>
@@ -20,7 +28,5 @@
     	
     	<animation in="" out="" ></animation>
     </activiy>
-    
-    <task name="" class="" />
     
 </app>

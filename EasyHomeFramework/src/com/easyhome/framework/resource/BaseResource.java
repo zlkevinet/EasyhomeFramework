@@ -16,17 +16,32 @@ public abstract class BaseResource implements IResource{
 
     private final String DF_RES_FILE = "app.properties";
     
-    protected final Properties properties = new Properties();
+    protected Properties properties;
     
     private ResourceManager resourceManager;
+    private static boolean inited; 
     
     public BaseResource(ResourceManager resourceManager){
         this.resourceManager = resourceManager;
-        try {
-            loadResource();
-        } catch (IOException e) {
-            LogUtils.e(getClass(), "load resource error!", e);
+        
+        if(this instanceof AppResource){
+            properties = resourceManager.getProperties(ResourceManager.CONFIG_TYPE_APP);
+        } else if(this instanceof PhoneResource){
+            properties = resourceManager.getProperties(ResourceManager.CONFIG_TYPE_PHONE);
+        } else if(this instanceof PropertiesResource){
+            properties = resourceManager.getProperties(ResourceManager.CONFIG_TYPE_PROPERTIES);
         }
+        
+        if(!inited){
+            inited = true;
+            try {
+                InputStream is = resourceManager.getAssets().open(DF_RES_FILE);
+                properties.load(is);
+            } catch (IOException e) {
+                LogUtils.e(getClass(), "load resource error!", e);
+            }
+        }
+        
     }
     
     public ResourceManager getResourceManager() {
@@ -35,8 +50,6 @@ public abstract class BaseResource implements IResource{
 
     @Override
     public void loadResource() throws IOException{
-        InputStream is = resourceManager.getAssets().open(DF_RES_FILE);
-        properties.load(is);
     }
     
     @Override
