@@ -35,7 +35,7 @@
                     android:layout_marginBottom="140.0dip"
                     android:layout_marginLeft="8.666992dip"
                     android:background="@drawable/composer_camera"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <com.easyhome.framework.view.plusmenu.InOutImageButton
                     android:id="@id/composer_button_people"
@@ -46,7 +46,7 @@
                     android:layout_marginBottom="133.474dip"
                     android:layout_marginLeft="49.868988dip"
                     android:background="@drawable/composer_with"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <com.easyhome.framework.view.plusmenu.InOutImageButton
                     android:id="@id/composer_button_place"
@@ -57,7 +57,7 @@
                     android:layout_marginBottom="114.53598dip"
                     android:layout_marginLeft="87.037994dip"
                     android:background="@drawable/composer_place"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <com.easyhome.framework.view.plusmenu.InOutImageButton
                     android:id="@id/composer_button_music"
@@ -68,7 +68,7 @@
                     android:layout_marginBottom="85.037994dip"
                     android:layout_marginLeft="116.53598dip"
                     android:background="@drawable/composer_music"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <com.easyhome.framework.view.plusmenu.InOutImageButton
                     android:id="@id/composer_button_thought"
@@ -79,7 +79,7 @@
                     android:layout_marginBottom="47.868988dip"
                     android:layout_marginLeft="135.474dip"
                     android:background="@drawable/composer_thought"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <com.easyhome.framework.view.plusmenu.InOutImageButton
                     android:id="@id/composer_button_sleep"
@@ -90,7 +90,7 @@
                     android:layout_marginBottom="6.666992dip"
                     android:layout_marginLeft="142.0dip"
                     android:background="@drawable/composer_sleep"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </com.easyhome.framework.view.plusmenu.InOutRelativeLayout>
 
             <com.easyhome.framework.view.plusmenu.InOutRelativeLayout
