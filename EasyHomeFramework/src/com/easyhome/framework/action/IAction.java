@@ -6,5 +6,7 @@ package com.easyhome.framework.action;
  * @since 2012-6-20
  */
 public interface IAction {
-
+	
+	public void send();
+	
 }
