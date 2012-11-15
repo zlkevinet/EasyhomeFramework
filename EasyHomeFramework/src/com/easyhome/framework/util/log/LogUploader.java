@@ -11,4 +11,16 @@ package com.easyhome.framework.util.log;
  */
 public class LogUploader {
 
+	/**
+	 * TODO 打包发送
+	 * @param mCache
+	 */
+	public void push(LogCache mCache) {
+		//1.打包数据
+		//2.开启线程进行发送
+		//3.检测是否发送成功
+		//4.重发
+		mCache.zipData();
+	}
+
 }

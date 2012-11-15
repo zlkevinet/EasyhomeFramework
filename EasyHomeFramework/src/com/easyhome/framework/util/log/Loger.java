@@ -3,6 +3,8 @@
  */
 package com.easyhome.framework.util.log;
 
+import android.util.Log;
+
 /**
  * 
  * @author zhoulu
@@ -10,5 +12,44 @@ package com.easyhome.framework.util.log;
  * @version 1.0
  */
 public class Loger {
+
+	private static final boolean DEBUG = true;
+
+	private LogCache mCache = new LogCache();
+	private LogUploader mLoader = new LogUploader();
+	
+	private static Loger mLoger;
+	
+	private Loger(){
+		
+	}
+	
+	public static Loger getInstance() {
+		if(mLoger == null){
+			mLoger = new Loger();
+		}
+		return mLoger;
+	}
+	
+	public static void d(String tag, String debugMsg) {
+		if(DEBUG){
+			Log.d(tag, debugMsg);
+		}
+	}
+	
+	/**
+	 * 统计记录
+	 * @param type
+	 */
+	public void log(FilterType type) {
+		mCache.add(type);
+	}
+	
+	/**
+	 * 发送统计记录
+	 */
+	public void sendLog() {
+		mLoader.push(mCache);
+	}
 
 }

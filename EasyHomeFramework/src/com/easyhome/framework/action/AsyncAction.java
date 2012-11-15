@@ -11,8 +11,4 @@ package com.easyhome.framework.action;
  */
 public class AsyncAction extends BaseAction {
 
-	@Override
-	public void send() {
-	}
-	
 }

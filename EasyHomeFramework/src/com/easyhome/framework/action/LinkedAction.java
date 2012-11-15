@@ -11,8 +11,4 @@ package com.easyhome.framework.action;
  */
 public class LinkedAction extends BaseAction{
 
-	@Override
-	public void send() {
-	}
-
 }

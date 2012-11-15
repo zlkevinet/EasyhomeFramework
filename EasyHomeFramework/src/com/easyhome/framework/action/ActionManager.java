@@ -11,7 +11,24 @@ package com.easyhome.framework.action;
  * @version 1.0
  */
 public class ActionManager {
+
+	private static ActionManager mActionManager;
+
+	private ActionQueue mActionQueue;
 	
-	
-	
+	private ActionManager() {
+		mActionQueue = new ActionQueue();
+	}
+
+	public static ActionManager getInstance() {
+		if (mActionManager == null) {
+			mActionManager = new ActionManager();
+		}
+		return mActionManager;
+	}
+
+	public void addAction(IAction action) {
+		mActionQueue.putAction(action);
+	}
+
 }
