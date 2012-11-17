@@ -16,6 +16,7 @@ import com.easyhome.framework.action.ActionFliper;
 import com.easyhome.framework.action.IAction;
 import com.easyhome.framework.module.IModuleWatcher;
 import com.easyhome.framework.module.ModuleType;
+import com.easyhome.framework.util.log.Loger;
 
 /**
  * 外置卡模块
@@ -26,6 +27,10 @@ import com.easyhome.framework.module.ModuleType;
 public class SdcardModule extends LocalModule {
 
 	public static final String ACTION_SEARCH = SdcardModule.class.getSimpleName() + "search";
+
+	private static final boolean DEBUG = true;
+
+	private static final String TAG = SdcardModule.class.getSimpleName();
 	
 	private BroadcastReceiver mSdcardReceiver = new BroadcastReceiver() {
 		@Override
@@ -91,6 +96,11 @@ public class SdcardModule extends LocalModule {
 		super.doAction(action);
 		String actionName = action.getActionName();
 		ActionCallback callback = action.getActionCallback();
+		
+		if(DEBUG){
+			Loger.d(TAG, "actionName " + actionName +" callback  " + callback + " ...");
+		}
+		
 		if(ACTION_SEARCH.equals(actionName)){
 			//TODO 执行搜寻功能
 			

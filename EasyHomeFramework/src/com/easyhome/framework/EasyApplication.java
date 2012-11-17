@@ -25,14 +25,6 @@ public abstract class EasyApplication extends Application {
 	
 	private static EasyApplication mApplication;
 
-	public static EasyApplication instance() {
-		return mApplication;
-	}
-
-	public EasyApplication() {
-		mApplication = this;
-	}
-
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
@@ -41,7 +33,7 @@ public abstract class EasyApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+		mApplication = this;
 		//第一次时间初始化动作管理者
 		ActionManager.getInstance();
 		Loger.getInstance();

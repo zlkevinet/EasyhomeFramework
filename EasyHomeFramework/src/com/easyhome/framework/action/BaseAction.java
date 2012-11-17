@@ -3,6 +3,8 @@
  */
 package com.easyhome.framework.action;
 
+import com.easyhome.framework.util.log.Loger;
+
 import android.os.Bundle;
 
 /**
@@ -12,6 +14,10 @@ import android.os.Bundle;
  * @version 1.0
  */
 public abstract class BaseAction implements IAction {
+
+	private static final boolean DEBUG = true;
+
+	private static final String TAG = BaseAction.class.getSimpleName();
 
 	private ActionDispatcher mActionDispatcher;
 	
@@ -41,6 +47,9 @@ public abstract class BaseAction implements IAction {
 	
 	@Override
 	public void send() {
+		if(DEBUG){
+			Loger.d(TAG, "send action " + mActionName + " ...");
+		}
 		mActionDispatcher.dispatchAction(this);
 	}
 

@@ -27,9 +27,14 @@ import com.easyhome.framework.util.log.Loger;
  * @creator kevin
  * @since Nov 17, 2012
  */
+@SuppressLint("HandlerLeak")
 public class DecorActivity implements IActivity {
 
 	private static final int MSG_FIRST_LOAD_DATA = 0;
+
+	private static final boolean DEBUG = true;
+
+	private static final String TAG = DecorActivity.class.getSimpleName();
 	
 	private LoadingAlert mLoadingAlert;
 	private Map<ModuleType, IModuleWatcher> mAllModuleWatcher;
@@ -55,6 +60,7 @@ public class DecorActivity implements IActivity {
 	public DecorActivity(Activity activity){
 		mActivity = activity;
 		mModuleManager = ModuleManager.getInstance();
+		mModuleManager.setContext(mActivity);
 		mActionManager = ActionManager.getInstance();
 		mAllModuleWatcher = new HashMap<ModuleType, IModuleWatcher>();
 	}
@@ -146,6 +152,9 @@ public class DecorActivity implements IActivity {
 
 	@Override
 	public void sendAction(IAction action) {
+		if(DEBUG){
+			Loger.d(TAG, "sendAction " + action.getActionName() + " ...");
+		}
 		mActionManager.addAction(action);
 	}
 	

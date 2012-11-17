@@ -17,6 +17,8 @@ public class ActionFliper {
 
 	private static final String TAG = ActionFliper.class.getSimpleName();
 
+	private static final boolean DEBUG = true;
+
 	private List<String> mActions;
 	
 	public ActionFliper(){
@@ -47,6 +49,9 @@ public class ActionFliper {
 				|| "".equals(actionName.trim())){
 			Loger.d(TAG, "-------- you add a empty action!");
 			return;
+		}
+		if(DEBUG){
+			Loger.d(TAG, "addAction " + actionName);
 		}
 		if(!mActions.contains(actionName)){
 			mActions.add(actionName);

@@ -4,6 +4,7 @@
 package com.easyhome.framework.action;
 
 import com.easyhome.framework.module.ModuleManager;
+import com.easyhome.framework.util.log.Loger;
 
 /**
  * 动作发送者
@@ -12,6 +13,10 @@ import com.easyhome.framework.module.ModuleManager;
  * @version 1.0
  */
 public class ActionDispatcher {
+
+	private static final boolean DEBUG = true;
+
+	private static final String TAG = ActionDispatcher.class.getSimpleName();
 
 	private ModuleManager mModuleManager;
 	
@@ -27,9 +32,24 @@ public class ActionDispatcher {
 	}
 	
 	public synchronized void dispatchAction(IAction action) {
+		if(action == null){
+			if(DEBUG){
+				Loger.w(TAG, "dispatchAction action is null");
+			}
+			return;
+		}
+		if(DEBUG){
+			Loger.d(TAG, "dispatchAction " + action.getActionName() + " ...");
+		}
 		if(action instanceof LinkedAction){
+			if(DEBUG){
+				Loger.d(TAG, "linkedAction send  " + action.getActionName() + " ...");
+			}
 			action.send();
 		} else {
+			if(DEBUG){
+				Loger.d(TAG, "do module send  " + action.getActionName() + " ...");
+			}
 			mModuleManager.dispatchAction(action);
 		}
 	}

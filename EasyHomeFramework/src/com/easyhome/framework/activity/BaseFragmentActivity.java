@@ -50,20 +50,6 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
 	}
 
 	/**
-	 * 初始化Activity的数据
-	 */
-	public void onFirstLoadData() {
-		
-	}
-
-	/**
-	 * 初始化Activity的视图
-	 */
-	public void onInitViews() {
-		
-	}
-
-	/**
 	 * 显示loading状态
 	 */
 	public void showLoading() {
@@ -121,6 +107,11 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
 		mDecorActivity.removeSystemModule(moduleType, watcher);
 	}
 
+	@Override
+	public void removeAllSystemModule() {
+		mDecorActivity.removeAllSystemModule();
+	}
+	
 	/**
 	 * 发送动作命令
 	 * @param action

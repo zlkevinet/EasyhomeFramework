@@ -10,9 +10,9 @@ import java.util.Map;
 
 import android.content.Context;
 
-import com.easyhome.framework.EasyApplication;
 import com.easyhome.framework.action.ActionFliper;
 import com.easyhome.framework.action.IAction;
+import com.easyhome.framework.util.log.Loger;
 
 /**
  * 模块的抽象类
@@ -21,6 +21,10 @@ import com.easyhome.framework.action.IAction;
  * @version 1.0
  */
 public abstract class BaseModule implements IModule {
+	private static final boolean DEBUG = true;
+
+	private static final String TAG = BaseModule.class.getSimpleName();
+
 	private ModuleManager mManager;
 
 	private Map<ModuleType, IModule> mChildModule = new HashMap<ModuleType, IModule>();
@@ -47,10 +51,11 @@ public abstract class BaseModule implements IModule {
 
 	public BaseModule() {
 		mManager = ModuleManager.getInstance();
+		initModule();
 	}
 
 	public Context getContext() {
-		return EasyApplication.getApplication().getApplicationContext();
+		return mManager.getContext();
 	}
 
 	public List<IModuleWatcher> getWatchers() {
@@ -84,6 +89,9 @@ public abstract class BaseModule implements IModule {
 
 	@Override
 	public void removeModule() {
+		if(DEBUG){
+			Loger.d(TAG, "removeModule ...");
+		}
 		clearAllWatcher();
 	}
 

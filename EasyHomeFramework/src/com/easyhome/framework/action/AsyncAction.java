@@ -3,6 +3,8 @@
  */
 package com.easyhome.framework.action;
 
+import android.os.Bundle;
+
 /**
  * 
  * @author zhoulu
@@ -11,4 +13,21 @@ package com.easyhome.framework.action;
  */
 public class AsyncAction extends BaseAction {
 
+	public AsyncAction() {
+		super();
+	}
+
+	public AsyncAction(String actionName, Bundle bundle, ActionCallback callback) {
+		super(actionName, bundle, callback);
+	}
+
+	public AsyncAction(String actionName, Bundle bundle) {
+		super(actionName, bundle);
+	}
+
+	public AsyncAction(String actionName) {
+		super(actionName);
+	}
+
+	
 }

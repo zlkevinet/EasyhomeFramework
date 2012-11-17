@@ -10,6 +10,7 @@ import com.easyhome.framework.action.IAction;
 import com.easyhome.framework.module.IModule;
 import com.easyhome.framework.module.IModuleWatcher;
 import com.easyhome.framework.module.ModuleType;
+import com.easyhome.framework.util.log.Loger;
 
 /**
  * 普通Activity抽象类
@@ -19,6 +20,8 @@ import com.easyhome.framework.module.ModuleType;
  */
 public abstract class BaseActivity extends Activity implements IActivity{
 
+	private static final boolean DEBUG = true;
+	private static final String TAG = BaseActivity.class.getSimpleName();
 	private DecorActivity mDecorActivity;
 	
 	@Override
@@ -48,20 +51,6 @@ public abstract class BaseActivity extends Activity implements IActivity{
 			mDecorActivity.removeAllSystemModule();
 			mDecorActivity = null;
 		}
-	}
-
-	/**
-	 * 初始化Activity的数据
-	 */
-	public void onFirstLoadData() {
-		
-	}
-
-	/**
-	 * 初始化Activity的视图
-	 */
-	public void onInitViews() {
-		
 	}
 
 	/**
@@ -122,11 +111,19 @@ public abstract class BaseActivity extends Activity implements IActivity{
 		mDecorActivity.removeSystemModule(moduleType, watcher);
 	}
 
+	@Override
+	public void removeAllSystemModule() {
+		mDecorActivity.removeAllSystemModule();
+	}
+
 	/**
 	 * 发送动作命令
 	 * @param action
 	 */
 	public void sendAction(IAction action) {
+		if(DEBUG){
+			Loger.d(TAG, "sendAction " + action.getActionName() + " ...");
+		}
 		mDecorActivity.sendAction(action);		
 	}
 

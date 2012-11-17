@@ -37,6 +37,12 @@ public class Loger {
 		}
 	}
 	
+	public static void w(String tag, String debugMsg) {
+		if(DEBUG){
+			Log.w(tag, debugMsg);
+		}
+	}
+	
 	/**
 	 * 统计记录
 	 * @param type

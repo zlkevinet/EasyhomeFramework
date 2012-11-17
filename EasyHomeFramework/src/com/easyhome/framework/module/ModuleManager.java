@@ -7,8 +7,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.content.Context;
+
 import com.easyhome.framework.action.IAction;
 import com.easyhome.framework.module.local.DatabaseModule;
+import com.easyhome.framework.module.local.SdcardModule;
+import com.easyhome.framework.util.log.Loger;
 
 /**
  * 模块管理中心
@@ -18,10 +22,14 @@ import com.easyhome.framework.module.local.DatabaseModule;
  */
 public class ModuleManager {
 
+	private static final boolean DEBUG = true;
+
+	private static final String TAG = ModuleManager.class.getSimpleName();
+
 	private Map<ModuleType, IModule> mAllModule = new HashMap<ModuleType, IModule>();
 	
 	private static ModuleManager mModuleManager;
-	
+	private Context mContext;
 	private ModuleManager(){}
 	
 	public static ModuleManager getInstance(){
@@ -29,6 +37,10 @@ public class ModuleManager {
 			mModuleManager = new ModuleManager();
 		}
 		return mModuleManager;
+	}
+	
+	public void setContext(Context context){
+		mContext = context;
 	}
 	
 	public void addModule(ModuleType moduleType) {
@@ -40,7 +52,9 @@ public class ModuleManager {
 		case DATABASE:
 			module = new DatabaseModule();
 			break;
-
+		case SDCARD:
+			module = new SdcardModule();
+			break;
 		default:
 			break;
 		}
@@ -93,13 +107,23 @@ public class ModuleManager {
 	 * @param action
 	 */
 	public void dispatchAction(IAction action) {
+		if(DEBUG){
+			Loger.d(TAG, "dispatchAction  " + action.getActionName() + " ...");
+		}
 		Iterator<IModule> iterator = mAllModule.values().iterator();
 		while (iterator.hasNext()) {
 			IModule module = iterator.next();
 			if(module.hasAction(action.getActionName())){
+				if(DEBUG){
+					Loger.d(TAG, "Module " + module.getModuleType().toString() +" doAction  " + action.getActionName() + " ...");
+				}
 				module.doAction(action);
 			}
 		}
+	}
+
+	public Context getContext() {
+		return mContext;
 	}
 	
 }

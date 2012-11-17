@@ -6,6 +6,8 @@ package com.easyhome.framework.action;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.easyhome.framework.util.log.Loger;
+
 /**
  * 动作队列
  * @author zhoulu
@@ -17,6 +19,8 @@ public class ActionQueue {
 	private static final int STATE_RUNNING = 0;
 	private static final int STATE_WAIT = 1;
 	private static final int STATE_DESTORY = 2;
+	private static final boolean DEBUG = true;
+	private static final String TAG = ActionQueue.class.getSimpleName();
 	
 	
 	private List<IAction> mActions;
@@ -36,9 +40,14 @@ public class ActionQueue {
 	 * @param action
 	 */
 	public void putAction(IAction action) {
-		mActions.add(action);
-		changeState(STATE_RUNNING);
-		mSendActionWorker.notify();
+		if(DEBUG){
+			Loger.d(TAG, "putAction " + action.getActionName() + " ...");
+		}
+		synchronized (mSendActionWorker) {
+			mActions.add(action);
+			changeState(STATE_RUNNING);
+			mSendActionWorker.notify();
+		}
 	}
 	
 	public void release(){
@@ -46,6 +55,9 @@ public class ActionQueue {
 	}
 	
 	private void changeState(int state){
+		if(DEBUG){
+			Loger.d(TAG, "changeState : " + state + " ...");
+		}
 		mState = state;
 	}
 	
@@ -58,19 +70,26 @@ public class ActionQueue {
 		
 		@Override
 		public void run() {
-			synchronized (this) {
+			synchronized (mSendActionWorker) {
 				while(mState != STATE_DESTORY){
 					try {
 						if(mActions.isEmpty()){
 							changeState(STATE_WAIT);
+							if(DEBUG){
+								Loger.d(TAG, "wait ...");
+							}
 							wait();
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
 					IAction action = mActions.remove(0);
-					action.send();
+					if(action != null){
+						if(DEBUG){
+							Loger.d(TAG, "send action " + action.getActionName() + " ...");
+						}
+						action.send();
+					}
 				}
 			}
 		}
