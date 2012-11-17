@@ -1,5 +1,5 @@
 /**
- * Copyright Baidu.Inc
+ * Copyright
  */
 package com.easyhome.framework.database;
 
