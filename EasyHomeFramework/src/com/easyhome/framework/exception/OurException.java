@@ -16,5 +16,21 @@ public class OurException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public OurException() {
+		super();
+	}
+
+	public OurException(String detailMessage, Throwable throwable) {
+		super(detailMessage, throwable);
+	}
+
+	public OurException(String detailMessage) {
+		super(detailMessage);
+	}
+
+	public OurException(Throwable throwable) {
+		super(throwable);
+	}
+
 	
 }

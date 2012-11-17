@@ -11,6 +11,8 @@ import java.util.Map;
 import android.content.Context;
 
 import com.easyhome.framework.EasyApplication;
+import com.easyhome.framework.action.ActionFliper;
+import com.easyhome.framework.action.IAction;
 
 /**
  * 模块的抽象类
@@ -26,6 +28,8 @@ public abstract class BaseModule implements IModule {
 	private List<IModuleWatcher> mAllWatchers = new ArrayList<IModuleWatcher>();
 
 	private ModuleType mModuleType;
+	
+	private ActionFliper mActionFliper;
 
 	@Override
 	public void initModule() {
@@ -83,18 +87,40 @@ public abstract class BaseModule implements IModule {
 		clearAllWatcher();
 	}
 
+	@Override
 	public void registerWatcher(IModuleWatcher watcher) {
 		if (watcher != null && !mAllWatchers.contains(watcher)) {
 			mAllWatchers.add(watcher);
 		}
 	}
 
+	@Override
 	public void unRegisterWatcher(IModuleWatcher watcher) {
 		if (watcher != null && mAllWatchers.contains(watcher)) {
 			mAllWatchers.remove(watcher);
 		}
 	}
+	
+	@Override
+	public boolean hasAction(String actionName) {
+		if(mActionFliper != null){
+			return mActionFliper.hasAction(actionName);
+		}
+		return false;
+	}
 
+	@Override
+	public void doAction(IAction action) {
+	}
+
+	@Override
+	public void registerActions(ActionFliper fliper) {
+		mActionFliper = fliper;
+	}
+
+	/**
+	 * 清空所有的监听
+	 */
 	public void clearAllWatcher() {
 		for (int i = 0; i < mAllWatchers.size(); i++) {
 			IModuleWatcher watcher = mAllWatchers.get(i);

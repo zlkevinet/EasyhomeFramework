@@ -10,5 +10,5 @@ package com.easyhome.framework.module;
  * @version 1.0
  */
 public interface IModuleWatcher {
-
+	
 }

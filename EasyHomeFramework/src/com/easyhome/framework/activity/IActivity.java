@@ -73,6 +73,11 @@ public interface IActivity {
 	public void removeSystemModule(ModuleType moduleType, IModuleWatcher watcher);
 	
 	/**
+	 * 移除Activity所有监听
+	 */
+	public void removeAllSystemModule();
+	
+	/**
 	 * 发送动作
 	 * @param action
 	 */

@@ -6,15 +6,10 @@ package com.easyhome.framework.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.easyhome.framework.action.ActionManager;
 import com.easyhome.framework.action.IAction;
 import com.easyhome.framework.module.IModule;
 import com.easyhome.framework.module.IModuleWatcher;
-import com.easyhome.framework.module.ModuleManager;
 import com.easyhome.framework.module.ModuleType;
-import com.easyhome.framework.ui.alert.LoadingAlert;
-import com.easyhome.framework.ui.alert.ToastAlert;
-import com.easyhome.framework.util.log.Loger;
 
 /**
  * 普通Activity抽象类
@@ -22,18 +17,17 @@ import com.easyhome.framework.util.log.Loger;
  * @since 2012-11-10-下午4:42:16
  * @version 1.0
  */
-public abstract class BaseActivity extends Activity implements IActivity {
+public abstract class BaseActivity extends Activity implements IActivity{
 
-	private LoadingAlert mLoadingAlert;
-	
-	private ModuleManager mModuleManager;
-	private ActionManager mActionManager;
+	private DecorActivity mDecorActivity;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mModuleManager = ModuleManager.getInstance();
-		mActionManager = ActionManager.getInstance();
+		mDecorActivity = new DecorActivity(this);
+		
+		mDecorActivity.onFirstLoadData();
+		mDecorActivity.onInitViews();
 	}
 
 	@Override
@@ -50,68 +44,90 @@ public abstract class BaseActivity extends Activity implements IActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		dismissLoading();
+		if(mDecorActivity != null){
+			mDecorActivity.removeAllSystemModule();
+			mDecorActivity = null;
+		}
 	}
 
-	@Override
+	/**
+	 * 初始化Activity的数据
+	 */
 	public void onFirstLoadData() {
+		
 	}
 
-	@Override
+	/**
+	 * 初始化Activity的视图
+	 */
 	public void onInitViews() {
+		
 	}
 
-	@Override
+	/**
+	 * 显示loading状态
+	 */
 	public void showLoading() {
-		if(mLoadingAlert == null){
-			mLoadingAlert = new LoadingAlert(this);
-			mLoadingAlert.show();
-		}
+		mDecorActivity.showLoading();
 	}
 
-	@Override
+	/**
+	 * 注销loading状态
+	 */
 	public void dismissLoading() {
-		if(mLoadingAlert != null){
-			mLoadingAlert.dismiss();
-			mLoadingAlert = null;
-		}
+		mDecorActivity.dismissLoading();
 	}
 
-	@Override
+	/**
+	 * 显示一个toast
+	 * @param resId
+	 */
 	public void showToast(int resId) {
-		ToastAlert.showToast(this, resId);
+		mDecorActivity.showToast(resId);
 	}
 
-	@Override
+	/**
+	 * 打印日志信息
+	 * @param tag
+	 * @param debugMsg
+	 */
 	public void debug(String tag, String debugMsg) {
-		Loger.d(tag, debugMsg);
+		mDecorActivity.debug(tag, debugMsg);
 	}
 
-
-	@Override
+	/**
+	 * 添加一个模块和监听
+	 * @param moduleType
+	 * @param watcher
+	 */
 	public void addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
-		mModuleManager.addModule(moduleType);
-		IModule module = mModuleManager.getModule(moduleType);
-		if(module != null){
-			module.registerWatcher(watcher);
-		}
+		mDecorActivity.addSystemModule(moduleType, watcher);
 	}
 
-	@Override
+	/**
+	 * 获得模块
+	 * @param moduleType
+	 * @return
+	 */
 	public IModule getSystemModule(ModuleType moduleType) {
-		return mModuleManager.getModule(moduleType);
+		return mDecorActivity.getSystemModule(moduleType); 
 	}
 
-	@Override
+	/**
+	 * 移除一个模块和监听
+	 * @param moduleType
+	 * @param watcher
+	 */
 	public void removeSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
-		IModule module = mModuleManager.getModule(moduleType);
-		if(module != null){
-			module.unRegisterWatcher(watcher);
-		}
+		mDecorActivity.removeSystemModule(moduleType, watcher);
 	}
 
-	@Override
+	/**
+	 * 发送动作命令
+	 * @param action
+	 */
 	public void sendAction(IAction action) {
-		mActionManager.addAction(action);
+		mDecorActivity.sendAction(action);		
 	}
 
 }

@@ -9,9 +9,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
 
+import com.easyhome.framework.action.ActionCallback;
+import com.easyhome.framework.action.ActionCommand;
+import com.easyhome.framework.action.ActionFliper;
+import com.easyhome.framework.action.IAction;
 import com.easyhome.framework.module.IModuleWatcher;
 import com.easyhome.framework.module.ModuleType;
 
@@ -23,31 +25,26 @@ import com.easyhome.framework.module.ModuleType;
  */
 public class SdcardModule extends LocalModule {
 
+	public static final String ACTION_SEARCH = SdcardModule.class.getSimpleName() + "search";
+	
 	private BroadcastReceiver mSdcardReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
-			Message msg = Message.obtain(mHandler);
-			msg.obj = action;
-			msg.sendToTarget();
-		}
-	};
-	
-	private Handler mHandler = new Handler(){
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			String action = (String)msg.obj;
+			//TODO 可能出现ANR问题
 			dispatchChange(action);
 		}
 	};
+	
 	
 	@Override
 	public void initModule() {
 		super.initModule();
 		addChildModule(ModuleType.DATABASE);
 		registMediaUnmountReceiver();
+		ActionFliper fliper = new ActionFliper();
+		fliper.addAction(ACTION_SEARCH);
+		registerActions(fliper);
 	}
 
 	protected void dispatchChange(String action) {
@@ -89,6 +86,22 @@ public class SdcardModule extends LocalModule {
 		unRegistMediaUnmountReceiver();
 	}
 	
+	@Override
+	public void doAction(IAction action) {
+		super.doAction(action);
+		String actionName = action.getActionName();
+		ActionCallback callback = action.getActionCallback();
+		if(ACTION_SEARCH.equals(actionName)){
+			//TODO 执行搜寻功能
+			
+			if(callback != null){
+				ActionCommand ac = new ActionCommand();
+				//TODO 组装指令结束的反馈
+				callback.responseAction(ac);
+			}
+		}
+	}
+
 	public interface SdcardWatcher extends IModuleWatcher {
 		public void onSdcardStateChange(String state);
 	}

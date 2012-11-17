@@ -9,7 +9,6 @@ import android.os.Bundle;
 import com.easyhome.framework.action.IAction;
 import com.easyhome.framework.module.IModule;
 import com.easyhome.framework.module.IModuleWatcher;
-import com.easyhome.framework.module.ModuleManager;
 import com.easyhome.framework.module.ModuleType;
 
 /**
@@ -19,63 +18,114 @@ import com.easyhome.framework.module.ModuleType;
  * @version 1.0
  */
 public abstract class BaseListActivity extends ListActivity implements IActivity {
-
-	private ModuleManager mModuleManager;
+	private DecorActivity mDecorActivity;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mModuleManager = ModuleManager.getInstance();
-	}
-	
-	@Override
-	public void onFirstLoadData() {
-	}
-
-	@Override
-	public void onInitViews() {
-	}
-
-	@Override
-	public void showLoading() {
-	}
-
-	@Override
-	public void dismissLoading() {
-	}
-
-	@Override
-	public void showToast(int resId) {
-	}
-
-	@Override
-	public void debug(String tag, String debugMsg) {
-	}
-
-	@Override
-	public void addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
-		mModuleManager.addModule(moduleType);
-		IModule module = mModuleManager.getModule(moduleType);
-		if(module != null){
-			module.registerWatcher(watcher);
-		}
-	}
-
-	@Override
-	public IModule getSystemModule(ModuleType moduleType) {
-		return mModuleManager.getModule(moduleType);
-	}
-
-	@Override
-	public void removeSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
-		IModule module = mModuleManager.getModule(moduleType);
-		if(module != null){
-			module.unRegisterWatcher(watcher);
-		}
-	}
-
-	@Override
-	public void sendAction(IAction action) {
+		mDecorActivity = new DecorActivity(this);
 		
+		mDecorActivity.onFirstLoadData();
+		mDecorActivity.onInitViews();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		dismissLoading();
+		if(mDecorActivity != null){
+			mDecorActivity.removeAllSystemModule();
+			mDecorActivity = null;
+		}
+	}
+
+	/**
+	 * 初始化Activity的数据
+	 */
+	public void onFirstLoadData() {
+		
+	}
+
+	/**
+	 * 初始化Activity的视图
+	 */
+	public void onInitViews() {
+		
+	}
+
+	/**
+	 * 显示loading状态
+	 */
+	public void showLoading() {
+		mDecorActivity.showLoading();
+	}
+
+	/**
+	 * 注销loading状态
+	 */
+	public void dismissLoading() {
+		mDecorActivity.dismissLoading();
+	}
+
+	/**
+	 * 显示一个toast
+	 * @param resId
+	 */
+	public void showToast(int resId) {
+		mDecorActivity.showToast(resId);
+	}
+
+	/**
+	 * 打印日志信息
+	 * @param tag
+	 * @param debugMsg
+	 */
+	public void debug(String tag, String debugMsg) {
+		mDecorActivity.debug(tag, debugMsg);
+	}
+
+	/**
+	 * 添加一个模块和监听
+	 * @param moduleType
+	 * @param watcher
+	 */
+	public void addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
+		mDecorActivity.addSystemModule(moduleType, watcher);
+	}
+
+	/**
+	 * 获得模块
+	 * @param moduleType
+	 * @return
+	 */
+	public IModule getSystemModule(ModuleType moduleType) {
+		return mDecorActivity.getSystemModule(moduleType); 
+	}
+
+	/**
+	 * 移除一个模块和监听
+	 * @param moduleType
+	 * @param watcher
+	 */
+	public void removeSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
+		mDecorActivity.removeSystemModule(moduleType, watcher);
+	}
+
+	/**
+	 * 发送动作命令
+	 * @param action
+	 */
+	public void sendAction(IAction action) {
+		mDecorActivity.sendAction(action);		
 	}
 }

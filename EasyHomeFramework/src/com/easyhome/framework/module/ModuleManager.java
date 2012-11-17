@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.easyhome.framework.action.IAction;
 import com.easyhome.framework.module.local.DatabaseModule;
 
 /**
@@ -85,6 +86,20 @@ public class ModuleManager {
 			}
 		}
 		mAllModule.clear();
+	}
+
+	/**
+	 * 分发动作
+	 * @param action
+	 */
+	public void dispatchAction(IAction action) {
+		Iterator<IModule> iterator = mAllModule.values().iterator();
+		while (iterator.hasNext()) {
+			IModule module = iterator.next();
+			if(module.hasAction(action.getActionName())){
+				module.doAction(action);
+			}
+		}
 	}
 	
 }

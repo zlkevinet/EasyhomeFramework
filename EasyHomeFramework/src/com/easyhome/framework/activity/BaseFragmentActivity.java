@@ -3,6 +3,7 @@
  */
 package com.easyhome.framework.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.easyhome.framework.action.IAction;
@@ -17,47 +18,115 @@ import com.easyhome.framework.module.ModuleType;
  * @version 1.0
  */
 public abstract class BaseFragmentActivity extends FragmentActivity implements IActivity {
+	private DecorActivity mDecorActivity;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mDecorActivity = new DecorActivity(this);
+		
+		mDecorActivity.onFirstLoadData();
+		mDecorActivity.onInitViews();
+	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		dismissLoading();
+		if(mDecorActivity != null){
+			mDecorActivity.removeAllSystemModule();
+			mDecorActivity = null;
+		}
+	}
+
+	/**
+	 * 初始化Activity的数据
+	 */
 	public void onFirstLoadData() {
+		
 	}
 
-	@Override
+	/**
+	 * 初始化Activity的视图
+	 */
 	public void onInitViews() {
+		
 	}
 
-	@Override
+	/**
+	 * 显示loading状态
+	 */
 	public void showLoading() {
+		mDecorActivity.showLoading();
 	}
 
-	@Override
+	/**
+	 * 注销loading状态
+	 */
 	public void dismissLoading() {
+		mDecorActivity.dismissLoading();
 	}
 
-	@Override
+	/**
+	 * 显示一个toast
+	 * @param resId
+	 */
 	public void showToast(int resId) {
+		mDecorActivity.showToast(resId);
 	}
 
-	@Override
+	/**
+	 * 打印日志信息
+	 * @param tag
+	 * @param debugMsg
+	 */
 	public void debug(String tag, String debugMsg) {
+		mDecorActivity.debug(tag, debugMsg);
 	}
 
-	@Override
-	public IModule getSystemModule(ModuleType moduleType) {
-		return null;
-	}
-
-	@Override
+	/**
+	 * 添加一个模块和监听
+	 * @param moduleType
+	 * @param watcher
+	 */
 	public void addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
+		mDecorActivity.addSystemModule(moduleType, watcher);
 	}
 
-	@Override
+	/**
+	 * 获得模块
+	 * @param moduleType
+	 * @return
+	 */
+	public IModule getSystemModule(ModuleType moduleType) {
+		return mDecorActivity.getSystemModule(moduleType); 
+	}
+
+	/**
+	 * 移除一个模块和监听
+	 * @param moduleType
+	 * @param watcher
+	 */
 	public void removeSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
+		mDecorActivity.removeSystemModule(moduleType, watcher);
 	}
 
-	@Override
+	/**
+	 * 发送动作命令
+	 * @param action
+	 */
 	public void sendAction(IAction action) {
+		mDecorActivity.sendAction(action);		
 	}
-
 	
 }
