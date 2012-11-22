@@ -52,7 +52,7 @@ public abstract class BaseAction implements IAction {
 		}
 		mActionDispatcher.dispatchAction(this);
 	}
-
+	
 	@Override
 	public void setAction(String action) {
 		mActionName = action;

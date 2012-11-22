@@ -3,6 +3,9 @@
  */
 package com.easyhome.framework.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 动作组
  * @author zhoulu
@@ -11,5 +14,25 @@ package com.easyhome.framework.action;
  */
 public class LinkedAction extends BaseAction{
 
+	private List<IAction> mActions;
 	
+	public LinkedAction() {
+		super();
+		mActions = new ArrayList<IAction>();
+	}
+
+	public void addAction(IAction action){
+		if(action != null && !mActions.contains(action)){
+			mActions.add(action);
+		}
+	}
+	
+	@Override
+	public void send() {
+		for (IAction action : mActions) {
+			action.send();
+		}
+		mActions.clear();
+	}
+
 }
