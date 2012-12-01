@@ -63,16 +63,15 @@ public abstract class BaseModule implements IModule {
 	}
 
 	@Override
-	public void addChildModule(ModuleType moduleType) {
-		mManager.addModule(moduleType);
+	public IModule addChildModule(ModuleType moduleType) {
+		IModule childModule = mManager.addModule(moduleType);
 
-		if (mManager.getModule(moduleType) == null) {
+		if (childModule == null) {
 			throw new ModuleException("add child module " + moduleType.toString() + " error!");
 		}
 
-		if (mChildModule != null) {
-			mChildModule.put(moduleType, mManager.getModule(moduleType));
-		}
+		mChildModule.put(moduleType, childModule);
+		return childModule;
 	}
 
 	@Override

@@ -24,11 +24,15 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mDecorActivity = new DecorActivity(this);
-		
 		mDecorActivity.onFirstLoadData();
-		mDecorActivity.onInitViews();
 	}
 
+	@Override
+	public void setContentView(int layoutResID) {
+		super.setContentView(layoutResID);
+		mDecorActivity.onInitViews();
+	}
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -85,8 +89,8 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
 	 * @param moduleType
 	 * @param watcher
 	 */
-	public void addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
-		mDecorActivity.addSystemModule(moduleType, watcher);
+	public IModule addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
+		return mDecorActivity.addSystemModule(moduleType, watcher);
 	}
 
 	/**

@@ -28,9 +28,11 @@ public enum ModuleType {
 	
 	CAMERA,//照相机
 	
-	Media,//媒体
+	MEDIA,//媒体
 	
 	SENSOR,//传感器
+	
+	MEDIA_EFFECT,//音效
 	/*****************************
 	 * 自定义
 	 ******************************/

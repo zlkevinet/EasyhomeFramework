@@ -54,8 +54,9 @@ public interface IActivity {
 	 * 
 	 * 如果父类已经添加，则使用父类的组件
 	 * @param moduleType
+	 * @return TODO
 	 */
-	public void addSystemModule(ModuleType moduleType, IModuleWatcher watcher);
+	public IModule addSystemModule(ModuleType moduleType, IModuleWatcher watcher);
 	
 	/**
 	 * 获得系统组件

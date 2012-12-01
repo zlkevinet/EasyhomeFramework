@@ -8,40 +8,34 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Configuration;
 
 import com.easyhome.framework.action.ActionManager;
 import com.easyhome.framework.util.log.Loger;
 
 /**
- * 
+ * Application的抽象类
  * @author zhoulu
  * @since 2012-11-10-下午9:33:26
  * @version 1.0
  */
 @SuppressLint("NewApi")
 public abstract class EasyApplication extends Application {
-
 	
+	private static final boolean DEBUG = true;
+	private static final String TAG = "EasyApplication";
 	private static EasyApplication mApplication;
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		if(DEBUG){
+			Loger.d(TAG, "onCreate");
+		}
 		mApplication = this;
+		
 		//第一次时间初始化动作管理者
 		ActionManager.getInstance();
 		Loger.getInstance();
-	}
-
-	@Override
-	public void onTerminate() {
-		super.onTerminate();
 	}
 
 	/**
@@ -73,8 +67,12 @@ public abstract class EasyApplication extends Application {
 
 	}
 	
-	public static Application getApplication(){
-		return mApplication;
+	/**
+	 * 获得Context
+	 * @return
+	 */
+	public static Context getContext(){
+		return mApplication.getApplicationContext();
 	}
-
+	
 }

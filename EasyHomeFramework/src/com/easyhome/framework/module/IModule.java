@@ -21,7 +21,7 @@ public interface IModule {
 	
 	public void initModule();
 	
-	public void addChildModule(ModuleType moduleType);
+	public IModule addChildModule(ModuleType moduleType);
 	
 	public IModule getChildModule(ModuleType moduleType);
 	

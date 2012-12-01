@@ -31,6 +31,12 @@ public class Loger {
 		return mLoger;
 	}
 	
+	public static void e(String tag, String debugMsg, Throwable e){
+		if(DEBUG){
+			Log.e(tag, debugMsg, e);
+		}
+	}
+	
 	public static void d(String tag, String debugMsg) {
 		if(DEBUG){
 			Log.d(tag, debugMsg);

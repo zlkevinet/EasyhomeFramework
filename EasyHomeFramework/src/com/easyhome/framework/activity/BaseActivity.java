@@ -28,10 +28,15 @@ public abstract class BaseActivity extends Activity implements IActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mDecorActivity = new DecorActivity(this);
-		
 		mDecorActivity.onFirstLoadData();
+	}
+
+	@Override
+	public void setContentView(int layoutResID) {
+		super.setContentView(layoutResID);
 		mDecorActivity.onInitViews();
 	}
+
 
 	@Override
 	protected void onResume() {
@@ -51,6 +56,7 @@ public abstract class BaseActivity extends Activity implements IActivity{
 			mDecorActivity.removeAllSystemModule();
 			mDecorActivity = null;
 		}
+		
 	}
 
 	/**
@@ -89,8 +95,8 @@ public abstract class BaseActivity extends Activity implements IActivity{
 	 * @param moduleType
 	 * @param watcher
 	 */
-	public void addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
-		mDecorActivity.addSystemModule(moduleType, watcher);
+	public IModule addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
+		return mDecorActivity.addSystemModule(moduleType, watcher);
 	}
 
 	/**

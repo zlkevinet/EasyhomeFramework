@@ -18,8 +18,7 @@ import com.easyhome.framework.module.IModule;
 import com.easyhome.framework.module.IModuleWatcher;
 import com.easyhome.framework.module.ModuleManager;
 import com.easyhome.framework.module.ModuleType;
-import com.easyhome.framework.ui.alert.LoadingAlert;
-import com.easyhome.framework.ui.alert.ToastAlert;
+import com.easyhome.framework.ui.notifier.Notifier;
 import com.easyhome.framework.util.log.Loger;
 
 /**
@@ -28,7 +27,7 @@ import com.easyhome.framework.util.log.Loger;
  * @since Nov 17, 2012
  */
 @SuppressLint("HandlerLeak")
-public class DecorActivity implements IActivity {
+final class DecorActivity implements IActivity {
 
 	private static final int MSG_FIRST_LOAD_DATA = 0;
 
@@ -36,7 +35,6 @@ public class DecorActivity implements IActivity {
 
 	private static final String TAG = DecorActivity.class.getSimpleName();
 	
-	private LoadingAlert mLoadingAlert;
 	private Map<ModuleType, IModuleWatcher> mAllModuleWatcher;
 	private ModuleManager mModuleManager;
 	private ActionManager mActionManager;
@@ -60,7 +58,7 @@ public class DecorActivity implements IActivity {
 	public DecorActivity(Activity activity){
 		mActivity = activity;
 		mModuleManager = ModuleManager.getInstance();
-		mModuleManager.setContext(mActivity);
+		mModuleManager.setContext(mActivity.getApplicationContext());
 		mActionManager = ActionManager.getInstance();
 		mAllModuleWatcher = new HashMap<ModuleType, IModuleWatcher>();
 	}
@@ -87,23 +85,17 @@ public class DecorActivity implements IActivity {
 
 	@Override
 	public void showLoading() {
-		if(mLoadingAlert == null){
-			mLoadingAlert = new LoadingAlert(mActivity);
-			mLoadingAlert.show();
-		}
+		Notifier.showLoading(mActivity);
 	}
 
 	@Override
 	public void dismissLoading() {
-		if(mLoadingAlert != null){
-			mLoadingAlert.dismiss();
-			mLoadingAlert = null;
-		}
+		Notifier.dismissLoading(mActivity);
 	}
 
 	@Override
 	public void showToast(int resId) {
-		ToastAlert.showToast(mActivity, resId);
+		Notifier.showToast(mActivity, resId);
 	}
 
 	@Override
@@ -112,14 +104,16 @@ public class DecorActivity implements IActivity {
 	}
 
 	@Override
-	public void addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
-		mModuleManager.addModule(moduleType);
-		IModule module = mModuleManager.getModule(moduleType);
-		if(module != null){
+	public IModule addSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
+		IModule module = mModuleManager.addModule(moduleType);
+		if(module != null && watcher != null){
 			module.registerWatcher(watcher);
 		}
 		
-		putModuleWatcher(moduleType, watcher);
+		if(watcher != null){
+			putModuleWatcher(moduleType, watcher);
+		}
+		return module;
 	}
 
 	@Override
@@ -130,11 +124,13 @@ public class DecorActivity implements IActivity {
 	@Override
 	public void removeSystemModule(ModuleType moduleType, IModuleWatcher watcher) {
 		IModule module = mModuleManager.getModule(moduleType);
-		if(module != null){
+		if(module != null && watcher != null){
 			module.unRegisterWatcher(watcher);
 		}
 		
-		removeModuleWatcher(moduleType, watcher);
+		if(watcher != null){
+			removeModuleWatcher(moduleType, watcher);
+		}
 	}
 
 	@Override

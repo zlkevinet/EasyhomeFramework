@@ -13,4 +13,11 @@ import com.easyhome.framework.module.BaseModule;
  */
 public abstract class LocalModule extends BaseModule{
 
+	public void notifyMessage(String msg){
+		
+	}
+	
+	public void notifyMessage(int msgId){
+		
+	}
 }

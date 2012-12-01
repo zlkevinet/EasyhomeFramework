@@ -11,7 +11,9 @@ import android.content.Context;
 
 import com.easyhome.framework.action.IAction;
 import com.easyhome.framework.module.local.DatabaseModule;
+import com.easyhome.framework.module.local.MediaEffectModule;
 import com.easyhome.framework.module.local.SdcardModule;
+import com.easyhome.framework.module.local.SharePreferenceModule;
 import com.easyhome.framework.util.log.Loger;
 
 /**
@@ -43,25 +45,34 @@ public class ModuleManager {
 		mContext = context;
 	}
 	
-	public void addModule(ModuleType moduleType) {
-		if (mAllModule == null || mAllModule.containsKey(moduleType)) {
-			return;
-		}
+	public IModule addModule(ModuleType moduleType) {
 		IModule module = null;
-		switch (moduleType) {
-		case DATABASE:
-			module = new DatabaseModule();
-			break;
-		case SDCARD:
-			module = new SdcardModule();
-			break;
-		default:
-			break;
-		}
+		if (mAllModule.containsKey(moduleType)) {
+			module = mAllModule.get(moduleType);
+		} else {
+			switch (moduleType) {
+			case DATABASE:
+				module = new DatabaseModule();
+				break;
+			case SDCARD:
+				module = new SdcardModule();
+				break;
+			case SHARE_PREFERENCE:
+				module = new SharePreferenceModule();
+				break;
+			case MEDIA_EFFECT:
+				module = new MediaEffectModule();
+				break;
+			default:
+				break;
+			}
 
-		if (module != null) {
-			mAllModule.put(moduleType, module);
+			if (module != null) {
+				mAllModule.put(moduleType, module);
+			}
 		}
+		
+		return module;
 	}
 	
 	public IModule getModule(ModuleType moduleType) {
@@ -122,6 +133,10 @@ public class ModuleManager {
 		}
 	}
 
+	/**
+	 * application context
+	 * @return
+	 */
 	public Context getContext() {
 		return mContext;
 	}

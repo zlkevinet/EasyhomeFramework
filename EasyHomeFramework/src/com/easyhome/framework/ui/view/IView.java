@@ -9,6 +9,6 @@ package com.easyhome.framework.ui.view;
  * @since 2012-11-9-上午1:02:20
  * @version 1.0
  */
-public class IView {
-
+public interface IView {
+//wait to be fill
 }

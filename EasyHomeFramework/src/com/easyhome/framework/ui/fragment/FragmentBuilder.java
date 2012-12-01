@@ -3,6 +3,8 @@
  */
 package com.easyhome.framework.ui.fragment;
 
+import android.app.Activity;
+
 /**
  * 
  * @author zhoulu
@@ -11,4 +13,17 @@ package com.easyhome.framework.ui.fragment;
  */
 public class FragmentBuilder {
 
+	private static FragmentBuilder mFragmentBuilder; 
+	
+	private FragmentBuilder(Activity activity){
+		
+	}
+	
+	public static FragmentBuilder getInstance(Activity activity) {
+		if(mFragmentBuilder == null){
+			mFragmentBuilder = new FragmentBuilder(activity);
+		}
+		return mFragmentBuilder;
+	}
+	
 }

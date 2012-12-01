@@ -9,6 +9,6 @@ package com.easyhome.framework.ui.fragment;
  * @since 2012-11-9-上午1:01:42
  * @version 1.0
  */
-public class IFragment {
-
+public interface IFragment {
+	
 }

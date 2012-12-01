@@ -9,6 +9,6 @@ package com.easyhome.framework.ui.window;
  * @since 2012-11-9-上午1:05:53
  * @version 1.0
  */
-public class ZBottomWindow {
+public class ZBottomWindow extends BaseWindow{
 
 }
