@@ -13,7 +13,7 @@ import android.util.Log;
  */
 public class Loger {
 
-	private static final boolean DEBUG = true;
+	public static final boolean DEBUG = true;
 
 	private LogCache mCache = new LogCache();
 	private LogUploader mLoader = new LogUploader();
